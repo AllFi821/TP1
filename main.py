@@ -5,13 +5,11 @@ from pages.secure_page import SecurePage
 from pages.dropdown_page import DropdownPage
 from pages.add_remove_page import AddRemovePage
 
-# Configuration
 driver = webdriver.Chrome()
 driver.implicitly_wait(5)
 
 def run_tp1():
     try:
-        # --- PARTIE 1 : AUTHENTIFICATION ---
         print("\n--- Phase 1: Authentification ---")
         login_pg = LoginPage(driver)
         secure_pg = SecurePage(driver)
@@ -30,7 +28,6 @@ def run_tp1():
         print("[OK] Logout réussi, retour à la page de login.")
 
 
-        # --- PARTIE 2 : DROPDOWN ---
         print("\n--- Phase 2: Liste Déroulante ---")
         dropdown_pg = DropdownPage(driver)
         dropdown_pg.load()
@@ -41,7 +38,6 @@ def run_tp1():
             print(f"[OK] {option} sélectionnée et vérifiée.")
 
 
-        # --- PARTIE 3 : ADD/REMOVE ELEMENTS ---
         print("\n--- Phase 3: Éléments Dynamiques ---")
         add_remove_pg = AddRemovePage(driver)
         add_remove_pg.load()
@@ -55,9 +51,11 @@ def run_tp1():
         assert add_remove_pg.get_delete_buttons_count() == 2
         print("[OK] 1 élément supprimé, il en reste 2.")
 
-        # Supprimer les restants
+        # Phase 3 suite
+        print("Suppression des éléments restants...")
         while add_remove_pg.get_delete_buttons_count() > 0:
             add_remove_pg.delete_element()
+            time.sleep(0.2)
         
         assert add_remove_pg.get_delete_buttons_count() == 0
         print("[OK] Tous les éléments supprimés.")
